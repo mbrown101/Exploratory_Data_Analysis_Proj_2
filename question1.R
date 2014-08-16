@@ -26,3 +26,4 @@ SCC <- readRDS("Source_Classification_Code.rds")
 head(NEI)
 head(SCC)
   
+NEI_agg <- aggregate( NEI[,4] , by = list(NEI[,6]) , FUN = sum , na.rm = TRUE )

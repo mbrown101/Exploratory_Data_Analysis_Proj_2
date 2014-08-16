@@ -24,15 +24,18 @@ unzip(data_file_path)
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
+# Subset for only FIPS code = 24510 (Baltimore, MD)
+NEI.24510 <- subset(NEI , NEI[,1] == 24510)
+
 #aggregate total emissions by year
-NEI_agg <- aggregate( NEI[,4] , by = list(NEI[,6]) , FUN = sum , na.rm = TRUE )
+NEI_agg <- aggregate( NEI.24510[,4] , by = list(NEI.24510[,6]) , FUN = sum , na.rm = TRUE )
 
 #forat plot
 par(mar=c(4, 5, 4, 0.5))
-q1plot <-barplot(NEI_agg[,2] , main = 'Total PM2.5 Emissions Decrease from 1999 to 2008' , ylab = 'PM2.5 emitted [tons]' , names = NEI_agg[,1] , col = 'red')
+q2plot <-barplot(NEI_agg[,2] , main = 'Total PM2.5 Emissions in Baltimore, MD Decrease \nfrom 1999 to 2008' , ylab = 'PM2.5 emitted [tons]' , names = NEI_agg[,1] , col = 'red')
 
 #Display plot 
-print (q1plot)
+print (q2plot)
 
 #create .PNG file of plot in working directory 
 dev.copy(device=png,"q2plot.png" , width = 600, height = 480)

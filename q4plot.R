@@ -1,5 +1,6 @@
 
 
+
 #   Project : Exploratory Data Analysis | Course Project 2
 #   Question 4: Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
 #   Author: M. Brown
@@ -41,12 +42,12 @@ colnames(coal.agg) <- c('year' , 'type' , 'Emissions')
 coal.agg[,1] <- as.character(coal.agg[,1])
 
 #format plot
-par(mar=c(4, 5, 4, 0.5))
 library(ggplot2)
 q4plot <- ggplot(data = coal.agg , aes(x = year , y = Emissions , fill = type)) + 
-  geom_bar(stat = 'identity' , position = position_dodge() , color = 'black') +  
-  ggtitle("PM2.5 Coal Emissions for Selected Years 1999 - 2008") + 
-  theme(plot.title = element_text(lineheight=.8, face="bold"))
+  geom_bar(stat = 'identity' ,  color = 'black') +  
+  ggtitle("PM2.5 Coal Emissions Decrease from 1999 - 2008") + 
+  theme(plot.title = element_text(lineheight=.8, face="bold")) + 
+  scale_y_continuous(name="Emissions [tons]")
 
 
 #Display plot 
@@ -55,3 +56,4 @@ print (q4plot)
 #create .PNG file of plot in working directory 
 dev.copy(device=png,"q4plot.png" , width = 600, height = 480)
 dev.off()
+

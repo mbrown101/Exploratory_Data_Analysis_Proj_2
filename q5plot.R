@@ -46,7 +46,7 @@ car.agg[,1] <- as.character(car.agg[,1])
 library(ggplot2)
 q5plot <- ggplot(data = car.agg , aes(x = year , y = Emissions , fill = type)) + 
   geom_bar(stat = 'identity' ,  color = 'black') +  
-  ggtitle("PM2.5 Motor vehicle Emissions in Baltimore City for years 1999 - 2008") + 
+  ggtitle("PM2.5 Motor vehicle Emissions Drop in Baltimore City for years 1999 - 2008") + 
   theme(plot.title = element_text(lineheight=.8, face="bold")) + 
   scale_y_continuous(name="Emissions [tons]")
 

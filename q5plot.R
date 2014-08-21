@@ -24,11 +24,14 @@ unzip(data_file_path)
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
-# search on SCC$short.Name for anything with 'Coal' and create new data frame
-SCC.car.df <- subset(SCC , SCC[,2] %in% c('Onroad') )
+# Subset for only FIPS code = 24510 (Baltimore City, MD)
+NEI.24510 <- subset(NEI , NEI[,1] == 24510)
+
+# Subset SCC for Data.Category = 'Onroad' and create new data frame
+SCC.car.df <- SCC[SCC[,2] %in% c('Onroad') , ]
 
 # merge the SCC on-road sources entries with NEI 
-data.merge.car <- merge(NEI , SCC.car.df , by.x = 'SCC' , by.y = 'SCC')
+data.merge.car <- merge(NEI.24510 , SCC.car.df , by.x = 'SCC' , by.y = 'SCC')
 
 #aggregate total emissions by year
 car.agg <- aggregate( data.merge.car[,4] , by = list(data.merge.car[,6] , data.merge.car[,5]) , FUN = sum , na.rm = TRUE )
@@ -37,13 +40,13 @@ car.agg <- aggregate( data.merge.car[,4] , by = list(data.merge.car[,6] , data.m
 colnames(car.agg) <- c('year' , 'type' , 'Emissions')
 
 #change year data to character so GGplot doesn't scale the integers on the x-axis
-car.agg[,1] <- as.character(coal.agg[,1])
+car.agg[,1] <- as.character(car.agg[,1])
 
 #format plot
 library(ggplot2)
-q4plot <- ggplot(data = car.agg , aes(x = year , y = Emissions , fill = type)) + 
+q5plot <- ggplot(data = car.agg , aes(x = year , y = Emissions , fill = type)) + 
   geom_bar(stat = 'identity' ,  color = 'black') +  
-  ggtitle("PM2.5 Motor vehicle Emissions in Baltimore City  n\for years 1999 - 2008") + 
+  ggtitle("PM2.5 Motor vehicle Emissions in Baltimore City for years 1999 - 2008") + 
   theme(plot.title = element_text(lineheight=.8, face="bold")) + 
   scale_y_continuous(name="Emissions [tons]")
 

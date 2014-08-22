@@ -44,6 +44,11 @@ colnames(car.agg) <- c('year' , 'type' , 'Location' , 'Emissions')
 #change year data to character so GGplot doesn't scale the integers on the x-axis
 car.agg[,1] <- as.character(car.agg[,1])
 
+# change FIPS code to Proper Names
+car.agg[,3] <- gsub('06037' , 'Los Angeles County' , car.agg[,3] )  # FIPS to LA County
+car.agg[,3] <- gsub('24510' , 'Baltimore City, MD' , car.agg[,3] )  # FIPS to Baltimore City, MD
+
+
 #format plot
 library(ggplot2)
 qplot <- ggplot(data = car.agg , aes(x = year , y = Emissions , fill = Location ) ) + 

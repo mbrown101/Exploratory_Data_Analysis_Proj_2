@@ -27,7 +27,7 @@ NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
 # Subset for only FIPS code = 24510 (Baltimore City, MD) or fips == 06037 (Los Angeles County, California) 
-NEI.fips <- subset(NEI , NEI[,1] == 24510 | NEI[,1] == 06037)
+NEI.fips <- subset(NEI , NEI[,1] == '24510' | NEI[,1] == '06037')
 
 # Subset SCC for Data.Category = 'Onroad' and create new data frame
 SCC.car.df <- SCC[SCC[,2] %in% c('Onroad') , ]
@@ -39,16 +39,16 @@ data.merge.car <- merge(NEI.fips , SCC.car.df , by.x = 'SCC' , by.y = 'SCC')
 car.agg <- aggregate( data.merge.car[,4] , by = list(data.merge.car[,6] , data.merge.car[,5] , data.merge.car[,2]) , FUN = sum , na.rm = TRUE )
 
 #name columns after aggregation 
-colnames(car.agg) <- c('year' , 'type' , 'Emissions')
+colnames(car.agg) <- c('year' , 'type' , 'Location' , 'Emissions')
 
 #change year data to character so GGplot doesn't scale the integers on the x-axis
 car.agg[,1] <- as.character(car.agg[,1])
 
 #format plot
 library(ggplot2)
-qplot <- ggplot(data = car.agg , aes(x = year , y = Emissions , fill = type)) + 
-  geom_bar(stat = 'identity' ,  color = 'black') +  
-  ggtitle("PM2.5 Motor vehicle Emissions Baltimore City and Los Angeles County \nfor years 1999 - 2008") + 
+qplot <- ggplot(data = car.agg , aes(x = year , y = Emissions , fill = Location ) ) + 
+  geom_bar(stat = 'identity' ,  color = 'black' , position=position_dodge()) +  
+  ggtitle("PM2.5 Motor Vehicle Emissions Baltimore City and Los Angeles County \nfor years 1999 - 2008") + 
   theme(plot.title = element_text(lineheight=.8, face="bold")) + 
   scale_y_continuous(name="Emissions [tons]")
 

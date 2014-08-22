@@ -64,3 +64,22 @@ print (qplot)
 #create .PNG file of plot in working directory 
 dev.copy(device=png,"q6plot.png" , width = 600, height = 480)
 dev.off()
+
+#Second plot showing change
+
+#subset for 1999 and 2008
+car.agg.2yr <- subset(car.agg , car.agg[,1] == '1999' | car.agg[,1] == '2008' )
+
+qplot <- ggplot(data = car.agg.2yr , aes(x = year , y = Emissions , fill = Location ) ) + 
+  geom_bar(stat = 'identity' ,  color = 'black' , position=position_dodge()) +  
+  ggtitle("PM2.5 Motor Vehicle Emissions Baltimore City and Los Angeles County \nfor 1999 & 2008") + 
+  theme(plot.title = element_text(lineheight=.8, face="bold")) + 
+  scale_y_continuous(name="Emissions [tons]")
+
+
+#Display plot 
+print (qplot)
+
+#create .PNG file of plot in working directory 
+dev.copy(device=png,"q6bplot.png" , width = 600, height = 480)
+dev.off()

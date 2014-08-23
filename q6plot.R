@@ -67,14 +67,21 @@ dev.off()
 
 #Second plot showing change
 
-#subset for 1999 and 2008
+#subset for differences by region from 1999 to 2008
 car.agg.2yr <- subset(car.agg , car.agg[,1] == '1999' | car.agg[,1] == '2008' )
+car.agg.2yr.la.diff <- diff(car.agg.2yr[car.agg.2yr[,3] ==  'Los Angeles County',4])
+car.agg.2yr.balt.diff <- diff(car.agg.2yr[car.agg.2yr[,3] ==  'Baltimore City, MD',4])
+diff.data <- as.data.frame(rbind(c('Los Angeles County' , car.agg.2yr.la.diff) , c('Baltimore City, MD' , car.agg.2yr.balt.diff )))
+diff.data[,2] <- as.character(diff.data[,2])
+diff.data[,2] <- as.numeric(diff.data[,2])
+colnames(diff.data) <- c('Location' , 'Emissions')
 
-qplot <- ggplot(data = car.agg.2yr , aes(x = year , y = Emissions , fill = Location ) ) + 
+
+qplot <- ggplot(data = diff.data , aes(x = Location , y = Emissions  ) ) + 
   geom_bar(stat = 'identity' ,  color = 'black' , position=position_dodge()) +  
-  ggtitle("PM2.5 Motor Vehicle Emissions Baltimore City and Los Angeles County \nfor 1999 & 2008") + 
+  ggtitle("CHange in PM2.5 Motor Vehicle Emissions for Baltimore City and Los Angeles County \nfrom 1999 & 2008") + 
   theme(plot.title = element_text(lineheight=.8, face="bold")) + 
-  scale_y_continuous(name="Emissions [tons]")
+  scale_y_continuous(name="Change in Emissions from 1999 to 2008 [tons]")
 
 
 #Display plot 

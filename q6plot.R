@@ -79,7 +79,7 @@ colnames(diff.data) <- c('Location' , 'Emissions')
 
 qplot <- ggplot(data = diff.data , aes(x = Location , y = Emissions  ) ) + 
   geom_bar(stat = 'identity' ,  color = 'black' , position=position_dodge()) +  
-  ggtitle("CHange in PM2.5 Motor Vehicle Emissions for Baltimore City and Los Angeles County \nfrom 1999 & 2008") + 
+  ggtitle("Change in PM2.5 Motor Vehicle Emissions for \nBaltimore City and Los Angeles County from 1999-2008") + 
   theme(plot.title = element_text(lineheight=.8, face="bold")) + 
   scale_y_continuous(name="Change in Emissions from 1999 to 2008 [tons]")
 

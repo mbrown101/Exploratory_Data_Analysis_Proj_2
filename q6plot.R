@@ -1,4 +1,3 @@
-
 #   Project : Exploratory Data Analysis | Course Project 2
 #   Question 6: Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle 
 #               sources in Los Angeles County, California (fips == 06037). Which city has seen greater changes 
@@ -78,10 +77,13 @@ colnames(diff.data) <- c('Location' , 'Emissions')
 
 
 qplot <- ggplot(data = diff.data , aes(x = Location , y = Emissions  ) ) + 
-  geom_bar(stat = 'identity' ,  color = 'black' , position=position_dodge()) +  
+  geom_bar(stat = 'identity' ,  color = 'black' , fill = 'blue', position=position_dodge()) +  
   ggtitle("Change in PM2.5 Motor Vehicle Emissions for \nBaltimore City and Los Angeles County from 1999-2008") + 
   theme(plot.title = element_text(lineheight=.8, face="bold")) + 
-  scale_y_continuous(name="Change in Emissions from 1999 to 2008 [tons]")
+  scale_y_continuous(name="Change in Emissions from 1999 to 2008 [tons]") +
+  
+  ### Add labels with values to 6 significant digits, whose position is the bar height plus 25 to deconflict the text from the bar
+  geom_text(aes(label = signif(Emissions , digits = 6), y = Emissions + 25*(Emissions / abs(Emissions))), size = 4 , color = 'black' )
 
 
 #Display plot 

@@ -1,4 +1,3 @@
-
 #   Project : Exploratory Data Analysis | Course Project 2
 #   Question 3: Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City?
 #   Author: M. Brown
@@ -36,17 +35,38 @@ colnames(NEI_agg) <- c('year' , 'type' , 'Emissions')
 #change year data to character so GGplot doesn't scale the integers on the x-axis
 NEI_agg[,1] <- as.character(NEI_agg[,1])
 
+#Make type a factor
+NEI_agg.fac <- NEI_agg
+NEI_agg.fac[,2] <- factor(NEI_agg.fac[,2])
+
 #format plot
 par(mar=c(4, 5, 4, 0.5))
 library(ggplot2)
-q3plot <- ggplot(data = NEI_agg , aes(x = year , y = Emissions , fill = type)) + 
-          geom_bar(stat = 'identity' , position = position_dodge() , color = 'black') +  
-          ggtitle("Emissions by Type for Baltimore. MD\nfor Selected Years 1999 - 2008") + 
-          theme(plot.title = element_text(lineheight=.8, face="bold"))
 
+
+q3plot <- ggplot(data = NEI_agg , aes(x = year , y = Emissions , fill = type)) + 
+  geom_bar(stat = 'identity' , position = position_dodge() , color = 'black') +  
+  ggtitle("Emissions by Type for Baltimore. MD\nfor Selected Years 1999 - 2008") + 
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
 
 #Display plot 
 print (q3plot)
+
+#create .PNG file of plot in working directory 
+dev.copy(device=png,"q3plot.png" , width = 600, height = 480)
+dev.off()
+
+q3aplot <- qplot(year , Emissions , data = NEI_agg.fac , facets = .~type ) + 
+  geom_bar(stat = 'identity' , position = position_dodge() , color = 'black')+  
+  ggtitle("Emissions by Type for Baltimore. MD\nfor Selected Years 1999 - 2008") + 
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#Display plot 
+print (q3aplot)
+
+#create .PNG file of plot in working directory 
+dev.copy(device=png,"q3aplot.png" , width = 600, height = 480)
+dev.off()
 
 #create .PNG file of plot in working directory 
 dev.copy(device=png,"q3plot.png" , width = 600, height = 480)
